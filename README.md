@@ -1,7 +1,13 @@
 # AI-Assisted QA Workflow with Playwright MCP
 
-A project demonstrating an AI-assisted manual and automated testing workflow 
-using Playwright MCP in Cursor. Built to showcase practical QA automation skills including prompt engineering, test design, and AI-assisted test execution.
+Many QA engineers are caught in a cycle of manual testing that leaves little time to build automation skills. This project explores how AI-assisted tooling can handle the execution burden of manual testing, freeing QA engineers to shift left, invest in automation, and focus on higher-value work.
+
+- A project demonstrating an AI-assisted manual and automated testing workflow using Playwright MCP in Cursor. 
+- Playwright MCP (Model Context Protocol) is a browser control integration that gives Cursor's AI agent the ability to drive a real browser, no test code required. 
+- The Cursor agent reads structured prompt files, executes test scenarios through Playwright MCP, and generates markdown test reports.
+
+Built to showcase practical QA automation skills including prompt engineering, 
+test design, and AI-assisted test execution. 
 
 ---
 
@@ -50,16 +56,12 @@ ai-qa-workflow/
 
 ## How the Workflow Works
 
-### 1. Manual Testing with MCP
-Playwright MCP is configured in Cursor as an agent tool. Prompt files in
-`.github/prompts/` define the application under test, behavior rules, and
-test scenarios. The agent navigates a real browser, executes scenarios,
-and generates a structured markdown report.
+###1. Playwright MCP (Model Context Protocol) is a browser control integration that gives Cursor's AI agent the ability to drive a real browser, no test code required. Prompt files in .github/prompts/ define the application under test, behavior rules, and test scenarios. The Cursor agent reads the prompts, executes scenarios through Playwright MCP, and generates a structured markdown report.
 
 ### 2. Prompt File Architecture
 A two-tier prompt structure keeps files lean and reusable:
 - `base-template.md` — shared rules, screenshot conventions, report format
-- Feature files (e.g. `orangehrm-login.md`) — reference the base and define scenarios
+- Feature files (e.g. `orangehrm-login.md`)- reference the base and define scenarios
 
 ### 3. Test Reports
 MCP sessions produce structured reports saved to `test-cases/manual/` with
@@ -79,7 +81,7 @@ Test cases are pushed to and fetched from TestRail via REST API.
 ### Prerequisites
 - Node.js 18+
 - Cursor Pro with Playwright MCP configured
-- OrangeHRM demo credentials (public — see `.envExample`)
+- OrangeHRM demo credentials (public see `.envExample`)
 
 ### Setup
 ```bash
