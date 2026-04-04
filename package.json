@@ -1,0 +1,24 @@
+{
+  "name": "ai-qa-workflow",
+  "version": "1.0.0",
+  "description": "Implementing Playwright MCP",
+  "homepage": "https://github.com/NewLara/ai-qa-workflow#readme",
+  "bugs": {
+    "url": "https://github.com/NewLara/ai-qa-workflow/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NewLara/ai-qa-workflow.git"
+  },
+  "license": "ISC",
+  "author": "Lara Caves",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "typescript": "^6.0.2"
+  }
+}
