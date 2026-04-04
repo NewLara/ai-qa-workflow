@@ -41,6 +41,7 @@ model: 'claude-sonnet-4-5'
 - Save report to `test-cases/manual/` using this naming convention: `YYYY-MM-DD_[feature-name].md`
 - Use this format:
 
+````
 # Manual Test Report — [Feature or Scenario Name]
 **Date:** YYYY-MM-DD
 **Tester:** Playwright MCP Agent
@@ -63,5 +64,4 @@ model: 'claude-sonnet-4-5'
 
 ## Summary
 [2-3 sentence overall result. Pass or Fail. Any blockers or items for follow-up.]
-
-
+````
