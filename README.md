@@ -61,7 +61,7 @@ ai-qa-workflow/
 
 ## How the Workflow Works
 
-###1. Playwright MCP (Model Context Protocol) is a browser control integration that gives Cursor's AI agent the ability to drive a real browser, no test code required. Prompt files in .github/prompts/ define the application under test, behavior rules, and test scenarios. The Cursor agent reads the prompts, executes scenarios through Playwright MCP, and generates a structured markdown report.
+### 1. Playwright MCP (Model Context Protocol) is a browser control integration that gives Cursor's AI agent the ability to drive a real browser, no test code required. Prompt files in .github/prompts/ define the application under test, behavior rules, and test scenarios. The Cursor agent reads the prompts, executes scenarios through Playwright MCP, and generates a structured markdown report.
 
 ### 2. Prompt File Architecture
 A two-tier prompt structure keeps files lean and reusable:
