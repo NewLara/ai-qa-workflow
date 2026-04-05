@@ -8,7 +8,7 @@ model: 'claude-sonnet-4-5'
 # OrangeHRM Add Employee Test Session
 
 ## Reference
-Follow all rules in `.github/prompts/base-template.md` for behavior, screenshots, and report output.
+Follow all rules in `.github/prompts/manual-runs/base-template.md` for behavior, screenshots, and report output.
 
 ## Feature Under Test
 Add Employee — OrangeHRM PIM (Personnel Information Management) module

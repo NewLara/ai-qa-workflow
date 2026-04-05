@@ -38,7 +38,7 @@ model: 'claude-sonnet-4-5'
 5. After completing all scenarios, generate a report file and close the browser
 
 ## Report Output
-- Save report to `test-cases/manual/` using this naming convention: `YYYY-MM-DD_[feature-name].md`
+- Save report to `ai-testing/manual-runs/` using this naming convention: `YYYY-MM-DD_[feature-name].md`
 - Use this format:
 
 ````

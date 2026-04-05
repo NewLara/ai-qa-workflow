@@ -39,14 +39,19 @@ test design, and AI-assisted test execution.
 ai-qa-workflow/
 ├── .github/
 │   └── prompts/                       # Cursor MCP prompt files
-│       ├── base-template.md           # Base rules, behavior, report format
-│       ├── orangehrm-login.md         # Login feature test session
-│       └── orangehrm-add-employee.md  # Add Employee test session
+│       ├── manual-runs/               # Manual test session prompts
+│       │   ├── base-template.md       # Base rules, behavior, report format
+│       │   ├── orangehrm-login.md     # Login feature test session
+│       │   └── orangehrm-add-employee.md  # Add Employee test session
+│       ├── manual-test-cases/         # Manual test case definitions
+│       └── automation-test-cases/     # Automation test case prompts
 ├── docs/                              # Reference documentation
-├── test-cases/
-│   └── manual/                        # MCP-generated test reports
+├── ai-testing/
+│   ├── manual-runs/                   # MCP-generated test reports
+│   └── manual-test-cases/             # Manual test case outputs
 ├── tests/
-│   └── generated/                     # Playwright automated tests
+│   ├── login/                         # Login Playwright tests
+│   └── add-employee/                  # Add Employee Playwright tests
 ├── playwright.config.ts
 ├── tsconfig.json
 └── .envExample                        # Environment variable template
@@ -64,12 +69,12 @@ A two-tier prompt structure keeps files lean and reusable:
 - Feature files (e.g. `orangehrm-login.md`)- reference the base and define scenarios
 
 ### 3. Test Reports
-MCP sessions produce structured reports saved to `test-cases/manual/` with
+MCP sessions produce structured reports saved to `ai-testing/manual-runs/` with
 step-by-step results, observations, and pass/fail status.
 
 ### 4. Automated Tests (In Progress)
 Manual test cases are converted into Playwright TypeScript tests saved
-to `tests/generated/`.
+to `tests/login/` or `tests/add-employee/` depending on the feature.
 
 ### 5. Test Management Integration (In Progress)
 Test cases are pushed to and fetched from TestRail via REST API.
@@ -112,7 +117,7 @@ Settings > Tools & MCPs.
 ### Run an MCP Test Session
 Open a new Agent chat in Cursor and reference a prompt file:
 ```
-Use .github/prompts/base-template.md and .github/prompts/orangehrm-login.md
+Use .github/prompts/manual-runs/base-template.md and .github/prompts/manual-runs/orangehrm-login.md
 to perform a manual test session. Reference the .env file for credentials.
 ```
 
