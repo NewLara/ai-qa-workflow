@@ -16,8 +16,8 @@ TypeScript spec file.
 - Generate one `describe` block per feature
 - Generate one `test` block per test case
 - Use the TC number and title as the test name
-- Load credentials from `.env` using `process.env`
-- Use `page.goto()` for navigation
+- Authentication is handled by `auth.setup.ts` and `storageState` — do not add login steps to `beforeEach`
+- Use `page.goto()` for navigation in `beforeEach`
 - Use locators over CSS selectors where possible
 - Add `await expect()` assertions for every expected result
 - Do not add logic not supported by the manual test case
@@ -35,9 +35,6 @@ import { test, expect } from '@playwright/test';
 test.describe('[Feature Name]', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(process.env.BASE_URL!);
-    await page.fill('[name="username"]', process.env.TEST_USERNAME!);
-    await page.fill('[name="password"]', process.env.TEST_PASSWORD!);
-    await page.click('[type="submit"]');
   });
 
   test('TC-001 - title here', async ({ page }) => {
