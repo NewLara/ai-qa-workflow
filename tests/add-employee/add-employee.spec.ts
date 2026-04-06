@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/baseTest';
 
 /**
  * Add Employee Test Suite
@@ -22,159 +22,101 @@ test.describe('Add Employee in PIM Module', () => {
     await page.goto(process.env.BASE_URL!);
   });
 
-  test('TC-001 - Successfully add employee with all required fields', async ({ page }) => {
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.getByRole('link', { name: 'Add Employee' }).click();
+  test('TC-001 - Successfully add employee with all required fields', async ({ page, addEmployeePage }) => {
+    await addEmployeePage.navigateToAddEmployee();
+    await addEmployeePage.fillEmployeeForm('Sarah', 'Johnson');
+    await addEmployeePage.submitForm();
 
-    await page.waitForLoadState('networkidle');
-    
-    const firstNameInput = page.locator('input[name="firstName"]');
-    const lastNameInput = page.locator('input[name="lastName"]');
-    
-    await firstNameInput.fill('Sarah');
-    await lastNameInput.fill('Johnson');
-    await page.locator('button[type="submit"]').click();
-
-    await page.waitForLoadState('networkidle');
     await expect(page.getByText('Sarah')).toBeVisible({ timeout: 10000 });
     await expect(page.getByText('Johnson')).toBeVisible({ timeout: 10000 });
   });
 
-  test('TC-002 - Verify newly added employee appears in Employee List', async ({ page }) => {
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.getByRole('link', { name: 'Employee List' }).click();
-    await page.waitForLoadState('networkidle');
+  test('TC-002 - Verify newly added employee appears in Employee List', async ({ employeeListPage }) => {
+    await employeeListPage.navigateToEmployeeList();
     
-    // Verify the employee list page loaded with search functionality
-    const searchButton = page.locator('button[type="submit"]');
-    await expect(searchButton).toBeVisible();
+    await expect(employeeListPage.searchButton).toBeVisible();
     
     // Note: Search functionality may vary based on application state
     // This test verifies the navigation and page load successfully
   });
 
-  test('TC-003 - Navigate to Add Employee form from PIM menu', async ({ page }) => {
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.getByRole('link', { name: 'Add Employee' }).click();
-
-    await page.waitForLoadState('networkidle');
+  test('TC-003 - Navigate to Add Employee form from PIM menu', async ({ addEmployeePage }) => {
+    await addEmployeePage.navigateToAddEmployee();
     
-    const firstNameField = page.locator('input[name="firstName"]');
-    const lastNameField = page.locator('input[name="lastName"]');
-    
-    await expect(firstNameField).toBeVisible();
-    await expect(lastNameField).toBeVisible();
-    await expect(firstNameField).toHaveValue('');
-    await expect(lastNameField).toHaveValue('');
+    await expect(addEmployeePage.firstNameInput).toBeVisible();
+    await expect(addEmployeePage.lastNameInput).toBeVisible();
+    await expect(addEmployeePage.firstNameInput).toHaveValue('');
+    await expect(addEmployeePage.lastNameInput).toHaveValue('');
   });
 
-  test('TC-004 - Verify validation when submitting form with all empty fields', async ({ page }) => {
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.waitForLoadState('networkidle');
-    await page.getByRole('link', { name: 'Add Employee' }).click();
-    await page.waitForLoadState('networkidle');
+  test('TC-004 - Verify validation when submitting form with all empty fields', async ({ addEmployeePage }) => {
+    await addEmployeePage.navigateToAddEmployee();
+    await addEmployeePage.clearForm();
+    await addEmployeePage.submitButton.click();
 
-    const firstNameInput = page.locator('input[name="firstName"]');
-    const lastNameInput = page.locator('input[name="lastName"]');
-    
-    await firstNameInput.clear();
-    await lastNameInput.clear();
-    await page.locator('button[type="submit"]').click();
-
-    await expect(page.locator('text=Required').first()).toBeVisible();
-    await expect(page.locator('text=Required').nth(1)).toBeVisible();
+    await expect(addEmployeePage.requiredErrorMessage.first()).toBeVisible();
+    await expect(addEmployeePage.requiredErrorMessage.nth(1)).toBeVisible();
   });
 
-  test('TC-005 - Verify validation when Last Name is missing', async ({ page }) => {
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.getByRole('link', { name: 'Add Employee' }).click();
+  test('TC-005 - Verify validation when Last Name is missing', async ({ addEmployeePage }) => {
+    await addEmployeePage.navigateToAddEmployee();
+    await addEmployeePage.firstNameInput.fill('John');
+    await addEmployeePage.lastNameInput.clear();
+    await addEmployeePage.submitButton.click();
 
-    await page.fill('[name="firstName"]', 'John');
-    await page.locator('[name="lastName"]').clear();
-    await page.click('[type="submit"]');
-
-    await expect(page.locator('text=Required')).toBeVisible();
+    await expect(addEmployeePage.requiredErrorMessage).toBeVisible();
   });
 
-  test.skip('TC-006 - Verify duplicate Employee ID validation', async ({ page }) => {
+  test.skip('TC-006 - Verify duplicate Employee ID validation', async ({ page, addEmployeePage }) => {
     // NOTE: This test is skipped because OrangeHRM demo appears to auto-increment Employee IDs
     // and doesn't consistently enforce duplicate validation in the test environment
     
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.getByRole('link', { name: 'Add Employee' }).click();
-    await page.waitForLoadState('networkidle');
-    
-    const firstNameInput = page.locator('input[name="firstName"]');
-    const lastNameInput = page.locator('input[name="lastName"]');
-    const allInputs = page.locator('input[class*="oxd-input"]');
-    const employeeIdField = allInputs.last();
-    
-    await firstNameInput.fill('Michael');
-    await lastNameInput.fill('Smith');
-    await employeeIdField.clear();
-    await employeeIdField.fill('0001');
-    await page.locator('button[type="submit"]').click();
+    await addEmployeePage.navigateToAddEmployee();
+    await addEmployeePage.fillEmployeeForm('Michael', 'Smith');
+    await addEmployeePage.setEmployeeId('0001');
+    await addEmployeePage.submitButton.click();
     await page.waitForTimeout(2000);
     
     const errorMessage = page.getByText(/Employee Id already exists/i);
     await expect(errorMessage).toBeVisible({ timeout: 10000 });
   });
 
-  test('TC-007 - Verify Last Name field character length validation', async ({ page }) => {
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.getByRole('link', { name: 'Add Employee' }).click();
+  test('TC-007 - Verify Last Name field character length validation', async ({ addEmployeePage }) => {
+    await addEmployeePage.navigateToAddEmployee();
 
     const longString = 'a'.repeat(58);
-    await page.fill('[name="firstName"]', 'Test');
-    await page.fill('[name="lastName"]', longString);
-    await page.click('[type="submit"]');
+    await addEmployeePage.fillEmployeeForm('Test', longString);
+    await addEmployeePage.submitButton.click();
 
-    await expect(page.locator('text=Should not exceed 30 characters')).toBeVisible();
+    await expect(addEmployeePage.characterLimitErrorMessage).toBeVisible();
   });
 
-  test('TC-008 - Verify special characters are allowed in name fields (Known Issue)', async ({ page }) => {
+  test('TC-008 - Verify special characters are allowed in name fields (Known Issue)', async ({ page, addEmployeePage }) => {
     // Known Issue: Medium severity - Special characters should be restricted but are currently accepted
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.getByRole('link', { name: 'Add Employee' }).click();
+    await addEmployeePage.navigateToAddEmployee();
+    await addEmployeePage.fillEmployeeForm('@#$%&*', 'Test');
+    await addEmployeePage.submitForm();
 
-    await page.waitForLoadState('networkidle');
-    
-    const firstNameInput = page.locator('input[name="firstName"]');
-    const lastNameInput = page.locator('input[name="lastName"]');
-    
-    await firstNameInput.fill('@#$%&*');
-    await lastNameInput.fill('Test');
-    await page.locator('button[type="submit"]').click();
-
-    await page.waitForLoadState('networkidle');
     await expect(page.getByText('@#$%&*')).toBeVisible({ timeout: 10000 });
   });
 
-  test('TC-009 - Verify auto-generated Employee ID is displayed on form load', async ({ page }) => {
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.getByRole('link', { name: 'Add Employee' }).click();
-
-    await page.waitForLoadState('networkidle');
+  test('TC-009 - Verify auto-generated Employee ID is displayed on form load', async ({ page, addEmployeePage }) => {
+    await addEmployeePage.navigateToAddEmployee();
     
-    const allInputs = page.locator('input[class*="oxd-input"]');
-    const employeeIdField = allInputs.last();
-    
-    await expect(employeeIdField).toBeVisible();
+    await expect(addEmployeePage.employeeIdField).toBeVisible();
     await page.waitForTimeout(1000);
-    const value = await employeeIdField.inputValue();
+    const value = await addEmployeePage.getEmployeeIdValue();
     expect(value).toBeTruthy();
     expect(value.length).toBeGreaterThan(0);
   });
 
-  test('TC-010 - Verify First Name field character length boundary (30 characters)', async ({ page }) => {
-    await page.getByRole('link', { name: 'PIM' }).click();
-    await page.getByRole('link', { name: 'Add Employee' }).click();
+  test('TC-010 - Verify First Name field character length boundary (30 characters)', async ({ addEmployeePage }) => {
+    await addEmployeePage.navigateToAddEmployee();
 
     const exactlyThirtyChars = 'a'.repeat(31);
-    await page.fill('[name="firstName"]', exactlyThirtyChars);
-    await page.fill('[name="lastName"]', 'Test');
-    await page.click('[type="submit"]');
+    await addEmployeePage.fillEmployeeForm(exactlyThirtyChars, 'Test');
+    await addEmployeePage.submitButton.click();
 
-    await expect(page.locator('text=Should not exceed 30 characters')).toBeVisible();
+    await expect(addEmployeePage.characterLimitErrorMessage).toBeVisible();
   });
 });
