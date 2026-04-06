@@ -122,9 +122,32 @@ to perform a manual test session. Reference the .env file for credentials.
 ```
 
 ### Run Automated Tests
-```
+
+Run all tests:
+```bash
 npx playwright test
 ```
+
+Run a specific test file:
+```bash
+npx playwright test tests/add-employee/add-employee.spec.ts
+```
+
+Run tests with browser visible:
+```bash
+npx playwright test --headed
+```
+
+Run tests in debug mode:
+```bash
+npx playwright test --debug
+```
+
+Run tests in UI mode (interactive):
+```bash
+npx playwright test --ui
+```
+
 ---
 
 ## Application Under Test
