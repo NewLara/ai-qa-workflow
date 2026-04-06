@@ -20,9 +20,6 @@ import { test, expect } from '@playwright/test';
 test.describe('Add Employee in PIM Module', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(process.env.BASE_URL!);
-    await page.fill('[name="username"]', process.env.TEST_USERNAME!);
-    await page.fill('[name="password"]', process.env.TEST_PASSWORD!);
-    await page.click('[type="submit"]');
   });
 
   test('TC-001 - Successfully add employee with all required fields', async ({ page }) => {
