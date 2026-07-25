@@ -10,9 +10,6 @@ playwright-report/
 test-results/
 playwright/.auth/
 
-# Playwright MCP session files
-.playwright-mcp/
-
 # Screenshots
 *.png
 

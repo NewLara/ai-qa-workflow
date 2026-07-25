@@ -42,6 +42,13 @@ export class AddEmployeePage {
 
   async submitForm() {
     await this.submitButton.click();
+    // A successful save routes the SPA away from /addEmployee to the new
+    // employee's profile page. networkidle alone can resolve before that
+    // client-side route change lands, which lets a caller that immediately
+    // navigates elsewhere (e.g. to Employee List) interrupt the save
+    // mid-flight. Only call submitForm() when you expect success — negative/
+    // validation-failure scenarios should click submitButton directly.
+    await this.page.waitForURL((url) => !url.pathname.endsWith('/addEmployee'), { timeout: 15000 }).catch(() => {});
     await this.page.waitForLoadState('networkidle');
   }
 

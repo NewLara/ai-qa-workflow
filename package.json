@@ -1,7 +1,7 @@
 {
   "name": "ai-qa-workflow",
   "version": "1.0.0",
-  "description": "Implementing Playwright MCP",
+  "description": "AI-assisted QA workflow using Claude Code subagents and skills to plan, generate, and run Playwright tests against OrangeHRM",
   "homepage": "https://github.com/NewLara/ai-qa-workflow#readme",
   "bugs": {
     "url": "https://github.com/NewLara/ai-qa-workflow/issues"
