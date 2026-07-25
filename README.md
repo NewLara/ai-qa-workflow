@@ -127,9 +127,6 @@ ai-qa-workflow/
 │       ├── add-employee.e2e.spec.ts
 │       ├── add-employee.security.spec.ts
 │       └── add-employee.integration.spec.ts
-├── utils/                              # Helper functions (planned)
-├── data/                               # Static test data (planned)
-├── docs/                               # Reference documentation
 ├── playwright.config.ts
 ├── tsconfig.json
 └── .envExample                         # Environment variable template
