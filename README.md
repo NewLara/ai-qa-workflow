@@ -19,18 +19,6 @@ test planning, and AI-assisted test execution.
 
 ## How This Project Was Built
 
-This project was not built by prompting an AI and accepting the output. Every 
-decision was deliberate. The process:
-
-1. Human identifies a need or idea
-2. Human consults Claude (claude.ai) to design and vet the approach
-3. Claude Code plans the implementation and confirms the approach with the human
-4. Human reviews, refines, and approves
-5. Claude Code implements, runs, and validates
-6. Human reviews output and commits
-7. Each pipeline stage (plan / generate / run) is reviewed by the human before 
-   moving to the next
-
 **Claude served as the strategic layer** — architecture decisions, agent and 
 skill design, pattern evaluation, and approach validation.
 
@@ -54,7 +42,7 @@ This three-way collaboration — human + strategic AI + execution AI — is an i
 - Security-minded test design (session/cookie checks, input validation, unauthenticated-route checks) implemented purely in Playwright
 - Shared authentication session with `auth.setup.ts` and `storageState`
 - Reusable, auditable pipeline artifacts — every plan and run gets a committed markdown report
-- Integrating with a test management tool via REST API (planned)
+- Integrating with a test management tool via REST API
 
 ---
 
@@ -92,7 +80,6 @@ These are decisions the I made that AI did not suggest:
 | `claude-in-chrome` MCP | Browser driving for the planner/generator's live app exploration |
 | Claude (claude.ai) | Strategic AI layer — architecture and agent/skill design |
 | OrangeHRM Demo | Application under test |
-| TestRail | Test case management API integration (planned) |
 | GitHub Actions | CI/CD (planned) |
 
 ---
